@@ -3,6 +3,11 @@ let lineX = [];
 let speed = [];
 let lineCount = 16 // for vertical lines
 let rotationOffsets = []; // Store rotation offsets for each blue boxes
+let backgroundMusic;
+
+function preload() {
+  backgroundMusic = loadSound('assets/backgroundmusic.mp3');
+}
 
 function setup() {
   createCanvas(680, 680);
@@ -17,6 +22,11 @@ function setup() {
   }
   // Initialise rotation offsets
   for (let i = 0; i < 54; i++) rotationOffsets[i] = random(0.05);
+
+  //playing the background music and set it to loop
+  if (!backgroundMusic.isPlaying()) {
+     backgroundMusic.loop();
+  }
 
 }
 
