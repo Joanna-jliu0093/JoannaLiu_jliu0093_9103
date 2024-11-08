@@ -2,6 +2,7 @@ let noiseOffsets = []; // Store noise offsets for yellow lines
 let lineX = []; 
 let speed = [];
 let lineCount = 16 // for vertical lines
+let rotationOffsets = []; // Store rotation offsets for each blue boxes
 
 function setup() {
   createCanvas(680, 680);
@@ -14,6 +15,8 @@ function setup() {
        lineX[i] = xPositions[i] * width; // initial x position
        speed[i] = random(1, 3); //Random speed
   }
+  // Initialise rotation offsets
+  for (let i = 0; i < 54; i++) rotationOffsets[i] = random(0.05);
 
 }
 
@@ -71,7 +74,7 @@ function drawYellowLines() {
       if (lineX[i] >= width || lineX[i] <= 0) {
           speed[i] *= -1;
       }
-      
+
   }
 }
 
@@ -213,6 +216,7 @@ function drawRedBoxes() {
 function drawBlueBoxes() {
   noStroke();
   let BlueBoxesColour = [67, 104, 186];
+
   let horizontalBlueBoxesWidth = [
       14, 17, 14, 14,
       14, 16, 17, 15, 17,
@@ -268,7 +272,27 @@ function drawBlueBoxes() {
   for (let i = 0; i < yStarts.length; i++) {
       // Place small boxes at the center of each line
       fill(BlueBoxesColour);
-      rect(680 * xStarts[i] - horizontalBlueBoxesWidth[i] / 2, 680 * yStarts[i] - horizontalBlueBoxesHeight[i] / 2, horizontalBlueBoxesWidth[i], horizontalBlueBoxesHeight[i]);
+
+      // Make the setting more clean and simple
+      let centerX = 680 * xStarts[i];
+      let centerY = 680 * yStarts[i];
+      let width = horizontalBlueBoxesWidth[i];
+      let height = horizontalBlueBoxesHeight[i];
+      
+      push();//Save the current drawing state
+
+      // Move the coordinate system to the triangle's center and apply random rotation
+      translate(centerX, centerY);
+
+      //Apply random rotation
+      rotate(rotationOffsets[i] * TWO_PI);
+
+      rectMode(CENTER);
+      rect(0, 0, width, height); 
+        
+      pop();// Restore the previuos drawing state
+
+      rotationOffsets[i] += 0.008;// Update for slight rotation over time
   }
 
 
@@ -324,7 +348,28 @@ function drawBlueBoxes() {
   for (let i = 0; i < xPositions.length; i++) {
       // Place small boxes at the center of each line
       fill(BlueBoxesColour);
-      rect(680 * xPositions[i] - verticalBlueBoxesWidth[i] / 2, 680 * yPositions[i] - verticalBlueBoxesHeight[i] / 2, verticalBlueBoxesWidth[i], verticalBlueBoxesHeight[i]);
+
+      //centre of the rectangles
+      let centerX = 680 * xPositions[i];
+      let centerY = 680 * yPositions[i];
+      let width = verticalBlueBoxesWidth[i];
+      let height = verticalBlueBoxesHeight[i];
+
+      push();//Save the current drawing state
+
+      // Move the coordinate system to the rectangles center and apply random rotation
+      translate(centerX, centerY);
+
+      //Apply random rotation
+      rotate(rotationOffsets[i] * -TWO_PI); // rotate in reverse direction
+
+      rectMode(CENTER);
+      rect(0, 0, width, height); 
+      
+      pop();// Restore the previuos drawing state
+
+      rotationOffsets[i] += 0.008;
+
   }
 }
 
