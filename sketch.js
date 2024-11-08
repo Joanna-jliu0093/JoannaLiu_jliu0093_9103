@@ -82,6 +82,8 @@ function drawRedBoxes() {
   noStroke();
 
   let RedBoxesColour = [152, 51, 43];
+  let threshold = 200; // Distance threshold for effect
+  let maxScale = 3; // Maximum scale factor for size increase
 
   let horizontalRedBoxesWidth = [
       15, 15, 16, 15, 15,
@@ -152,9 +154,26 @@ function drawRedBoxes() {
 
 
   for (let i = 0; i < yStarts.length; i++) {
-      // Place small boxes at the center of each line
-      fill(RedBoxesColour);
-      rect(680 * xStarts[i] - horizontalRedBoxesWidth[i] / 2, 680 * yStarts[i] - horizontalRedBoxesHeight[i] / 2, horizontalRedBoxesWidth[i], horizontalRedBoxesHeight[i]);
+    let xCenter = 680 * xStarts[i];
+    let yCenter = 680 * yStarts[i];
+
+    // Calculate distance from mouse to rectangle center
+    let distance = dist(mouseX, mouseY, xCenter, yCenter);
+
+    // Determine scaling factor based on distance
+    let scaleFactor = 1;
+    if (distance < threshold) {
+        scaleFactor = map(distance, 0, threshold, maxScale, 1); // Scale down as distance increases
+    }
+
+    //Adjust width and height based on scale factor
+    let rectWidth = horizontalRedBoxesWidth[i] * scaleFactor;
+    let rectHeight = horizontalRedBoxesHeight[i] * scaleFactor;
+
+
+    // Place small boxes at the center of each line
+    fill(RedBoxesColour);
+    rect(xCenter - rectWidth / 2, yCenter - rectHeight / 2, rectWidth, rectHeight);
   }
 
 
@@ -205,9 +224,25 @@ function drawRedBoxes() {
   ];
 
   for (let i = 0; i < xPositions.length; i++) {
-      // Place small boxes at the center of each line
-      fill(RedBoxesColour);
-      rect(680 * xPositions[i] - verticalRedBoxesWidth[i] / 2, 680 * yPositions[i] - verticalRedBoxesHeight[i] / 2, verticalRedBoxesWidth[i], verticalRedBoxesHeight[i]);
+    let xCenter = 680 * xPositions[i];
+    let yCenter = 680 * yPositions[i];
+
+    // Calculate distance from mouse to rectangle center
+    let distance = dist(mouseX, mouseY, xCenter, yCenter);
+
+    // Determine scaling factor based on distance
+    let scaleFactor = 1;
+    if (distance < threshold) {
+        scaleFactor = map(distance, 0, threshold, maxScale, 1); // Scale down as distance increases
+    }
+
+    //Adjust width and height based on scale factor
+    let rectWidth = verticalRedBoxesWidth[i] * scaleFactor;
+    let rectHeight = verticalRedBoxesHeight[i] * scaleFactor;
+
+    // Place small boxes at the center of each line
+    fill(RedBoxesColour);
+    rect(xCenter - rectWidth / 2, yCenter - rectHeight / 2, rectWidth, rectHeight);
   }
 
 
