@@ -1,10 +1,19 @@
 let noiseOffsets = []; // Store noise offsets for yellow lines
+let lineX = []; 
+let speed = [];
+let lineCount = 16 // for vertical lines
 
 function setup() {
   createCanvas(680, 680);
 
   // Initialize noise offsets
   for (let i = 0; i < 18; i++) noiseOffsets[i] = random(100);
+  // Initialize vertical line positions and speeds
+  let xPositions = [0.032, 0.07, 0.125, 0.233, 0.549, 0.59, 0.85, 0.89, 0.93, 0.97, 0.59, 0.661, 0.93, 0.93, 0.185, 0.445];
+  for (let i = 0; i < lineCount; i++) {
+       lineX[i] = xPositions[i] * width; // initial x position
+       speed[i] = random(1, 3); //Random speed
+  }
 
 }
 
@@ -53,7 +62,16 @@ function drawYellowLines() {
   for (let i = 0; i < xPositions.length; i++) {
 
       strokeWeight(verticalStrokes[i]);
-      line(680 * xPositions[i], yStarts[i] * 680, 680 * xPositions[i], 680 * verticalHeight[i]);
+
+      line(lineX[i] , yStarts[i] * 680, lineX[i] , 680 * verticalHeight[i]);
+
+        lineX[i] += speed[i];
+        
+      // Reverse direction at the edges
+      if (lineX[i] >= width || lineX[i] <= 0) {
+          speed[i] *= -1;
+      }
+      
   }
 }
 
