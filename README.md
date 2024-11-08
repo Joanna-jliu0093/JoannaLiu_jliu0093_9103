@@ -6,7 +6,7 @@ My artwork automatically plays music upon opening. If you move the mouse over th
 
 ### Details of my individual approach to animating the group code:
 
-__1. Which did I choose to drive your individual code?__
+__1. Which did I choose to drive my individual code?__
 
 I chose Perlin noise and randomness to drive my individual code.
 Below is my code that adds Perlin noise to the yellow horizontal lines.
